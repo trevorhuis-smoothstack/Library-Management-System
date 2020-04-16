@@ -2,7 +2,7 @@
 
 Week 1’s assignment (Library Management System)
 
-Write a program that operates on top of 3 different files and performs provides CRUD functionality for each file to the user. Each file is representingan entity, our entities are Book, Author, and Publisher. Each book has a Publisher and an Author associated with it.
+Write a program that operates on top of 3 different files and performs provides CRUD functionality for each file to the user. Each file is representing an entity, our entities are Book, Author, and Publisher. Each book has a Publisher and an Author associated with it.
 
 When creating a book, you need to make sure that the corresponding author and publisher exists in the other two files (We need to maintain referential integrity).
 
