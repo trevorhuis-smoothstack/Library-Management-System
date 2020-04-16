@@ -18,4 +18,5 @@ Following are what you need to have for each file
 Book  book_id, book_name, author_id and publisher_id
 
 Publisher  publisher_id, publisher_name and address
+
 Author  author_id, author_name
