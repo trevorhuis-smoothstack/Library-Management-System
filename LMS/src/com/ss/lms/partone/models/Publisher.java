@@ -1,6 +1,6 @@
-package com.ss.lms.partone;
+package com.ss.lms.partone.models;
 
-public class Publisher {
+public class Publisher extends LibraryData{
     private int publisher_id;
     private String publisher_name;
     private String address;

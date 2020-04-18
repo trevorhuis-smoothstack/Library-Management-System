@@ -1,6 +1,6 @@
-package com.ss.lms.partone;
+package com.ss.lms.partone.models;
 
-public class Author {
+public class Author extends LibraryData {
     private int author_id;
     private String author_name;
 

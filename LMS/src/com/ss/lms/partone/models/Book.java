@@ -1,6 +1,6 @@
-package com.ss.lms.partone;
+package com.ss.lms.partone.models;
 
-public class Book {
+public class Book extends LibraryData{
     private int book_id;
     private String book_name;
     private int author_id;
