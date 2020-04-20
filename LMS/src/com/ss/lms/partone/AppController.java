@@ -16,7 +16,13 @@ public class AppController {
     String errorMessage = "\n ERROR: Not a valid choice.";
 
     private LibraryManagementSystem lms = new LibraryManagementSystem();
-    private AuthorFileHandler afh = new AuthorFileHandler();2
+    private AuthorFileHandler afh = new AuthorFileHandler();
+    private BookFileHandler bfh = new BookFileHandler();
+    private PublisherFileHandler pfh = new PublisherFileHandler();
+
+    private LinkedList<Author> authors = afh.readFile();
+    private LinkedList<Book> books = bfh.readFile();
+    private LinkedList<Publisher> publishers = pfh.readFile();
     public static void main(String[] args) {
         AppController app = new AppController();
         app.startApp();
