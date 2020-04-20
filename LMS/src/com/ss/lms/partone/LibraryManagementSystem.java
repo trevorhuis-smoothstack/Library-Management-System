@@ -16,7 +16,7 @@ public class LibraryManagementSystem {
     
     private final  Scanner reader = new Scanner(System.in);
 
-    public Integer getIntInput() {
+    private Integer getIntInput() {
         Integer choice = 0;
 
         while (choice == 0) {
@@ -57,7 +57,7 @@ public class LibraryManagementSystem {
             return s;
         }
     }
-    
+
     // Menu Functions
     protected void printCRUDMenu() {
         System.out.println("\nWelcome to The Huis LMS");
@@ -104,7 +104,7 @@ public class LibraryManagementSystem {
         return choice;
     }
 
-    // Create Data Functions
+    // Create Functions
     public String createAuthorData(LinkedList<Author> authors) {
         Author author;
         String authorName;
@@ -243,10 +243,8 @@ public class LibraryManagementSystem {
         return publisher.toString();
     }
 
-    
 
-
-    // Read Data Functions
+    // Read Functions
     public void readAuthorData(LinkedList<Author> authors, LinkedList<Book> books) {
         System.out.println("Would you like to lookup a single Author or list all of them?");
         System.out.println("1) Single Author");
@@ -417,6 +415,7 @@ public class LibraryManagementSystem {
         
     }
 
+    // Update Functions
     public LinkedList<Author> updateAuthorData(LinkedList<Author> authors) {
         System.out.println("Who is the author you are updating?");
         String authorToFind = getStringInput();
@@ -482,7 +481,7 @@ public class LibraryManagementSystem {
         return null;
     }
 
-    public void updateBookDataHelperAuthor(LinkedList<Book> books, OptionalInt index, LinkedList<Author> authors) {
+    private void updateBookDataHelperAuthor(LinkedList<Book> books, OptionalInt index, LinkedList<Author> authors) {
         System.out.println("We can only change the author to another author in our system.");
         System.out.println("If we are unable to find the author, then you must create a new author and update the book information again.");
 
@@ -497,7 +496,7 @@ public class LibraryManagementSystem {
         System.out.println("Publisher updated.");
     }
 
-    public void updateBookDataHelperPublisher(LinkedList<Book> books, OptionalInt index, LinkedList<Publisher> publishers) {
+    private void updateBookDataHelperPublisher(LinkedList<Book> books, OptionalInt index, LinkedList<Publisher> publishers) {
         System.out.println("We can only change the author to another author in our system.");
         System.out.println("If we are unable to find the author, then you must create a new author and update the book information again.");
 
@@ -555,21 +554,21 @@ public class LibraryManagementSystem {
         return null;
     }
 
-    public void updatePublisherDataHelperName(LinkedList<Publisher> publishers, OptionalInt index) {
+    private void updatePublisherDataHelperName(LinkedList<Publisher> publishers, OptionalInt index) {
         System.out.println("What is the new name of the publisher?");
         String newPublisherName = getStringInput();
         publishers.get(index.getAsInt()).setPublisherName(newPublisherName);
         System.out.println("Publisher updated.");
     }
 
-    public void updatePublisherDataHelperAddress(LinkedList<Publisher> publishers, OptionalInt index) {
+    private void updatePublisherDataHelperAddress(LinkedList<Publisher> publishers, OptionalInt index) {
         System.out.println("What is the new address of the publisher?");
         String newPublisherAddress = getStringInput();
         publishers.get(index.getAsInt()).setAddress(newPublisherAddress);
         System.out.println("Publisher updated.");
     }
 
-    // Delete-Section data
+    // Delete Functions
     public LinkedList<Publisher> deletePublisherData(LinkedList<Publisher> publishers, LinkedList<Book> books) {
         System.out.println("What is the publisher you are deleting?");
         String publisherToFind = getStringInput();
