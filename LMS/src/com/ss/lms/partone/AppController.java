@@ -1,14 +1,12 @@
 package com.ss.lms.partone;
 
-import java.util.HashMap;
+import java.util.LinkedList;
 
 import com.ss.lms.partone.filehandler.AuthorFileHandler;
 import com.ss.lms.partone.filehandler.BookFileHandler;
 import com.ss.lms.partone.filehandler.PublisherFileHandler;
-
 import com.ss.lms.partone.models.Author;
 import com.ss.lms.partone.models.Book;
-import com.ss.lms.partone.models.LibraryData;
 import com.ss.lms.partone.models.Publisher;
 
 public class AppController {
@@ -22,9 +20,9 @@ public class AppController {
     private BookFileHandler bfh = new BookFileHandler();
     private PublisherFileHandler pfh = new PublisherFileHandler();
 
-    private HashMap<Integer, LibraryData> authorMap = afh.readFile();
-    private HashMap<Integer, LibraryData> bookMap = bfh.readFile();
-    private HashMap<Integer, LibraryData> publisherMap = pfh.readFile();
+    private LinkedList<Author> authors = afh.readFile();
+    private LinkedList<Book> books = bfh.readFile();
+    private LinkedList<Publisher> publishers = pfh.readFile();
 
     public static void main(String[] args) {
         AppController app = new AppController();
@@ -35,7 +33,6 @@ public class AppController {
         Integer operationChoice = lms.getCRUDOperationChoice();
 
         while (operationChoice != -1) {
-            
             switch (operationChoice) {
                 case 1:
                     runMenuOne();                    
@@ -57,19 +54,28 @@ public class AppController {
     }
 
     public void runMenuOne() {
-        Integer dataTypeChoice = lms.getABPDataTypeChoice();
+        Integer dataTypeChoice = lms.getABPDataTypeChoice("create");
         switch (dataTypeChoice) {
             case 1:
-                lms.createData(authorMap);
-                afh.addObjectToFile(authorMap);
+                strBuf.replace(0, strBuf.length(), lms.createAuthorData(authors));
+                if(!strBuf.toString().equals("Not valid.")) {
+                    afh.appendFile(strBuf.toString());
+                }
+                authors = afh.readFile();
                 break;
             case 2:
-                lms.createData(bookMap);
-                bfh.addObjectToFile(bookMap);
+                strBuf.replace(0, strBuf.length(), lms.createBookData(books, authors, publishers));
+                if(!strBuf.toString().equals("Not valid.")) {
+                    bfh.appendFile(strBuf.toString());
+                }    
+                books = bfh.readFile();
                 break;
             case 3:
-                lms.createData(publisherMap);
-                pfh.addObjectToFile(publisherMap);
+                strBuf.replace(0, strBuf.length(), lms.createPublisherData(publishers));
+                if(!strBuf.toString().equals("Not valid.")) {
+                    pfh.appendFile(strBuf.toString());
+                }
+                publishers = pfh.readFile();
                 break;
             default:
                 System.out.println(errorMessage);
@@ -77,16 +83,17 @@ public class AppController {
     }
 
     public void runMenuTwo() {
-        dataTypeChoice = lms.getABPDataTypeChoice();
+        dataTypeChoice = lms.getABPDataTypeChoice("lookup");
+
         switch (dataTypeChoice) {
             case 1:
-                lms.readData(authorMap);
+                lms.readAuthorData(authors, books);
                 break;
             case 2:
-                lms.readData(bookMap);
+                lms.readBookData(books, authors, publishers);
                 break;
             case 3:
-                lms.readData(publisherMap);
+                lms.readPublisherData(publishers, books);
                 break;
             default:
                 System.out.println(errorMessage);
@@ -94,19 +101,25 @@ public class AppController {
     }
 
     public void runMenuThree() {
-        dataTypeChoice = lms.getABPDataTypeChoice();
+        dataTypeChoice = lms.getABPDataTypeChoice("update");
         switch (dataTypeChoice) {
             case 1:
-                lms.removeData(authorMap);
-                afh.updateObjectOnFile(authorMap);
+                if(lms.updateAuthorData(authors) != null){
+                    afh.overwriteFile(authors);
+                }
+                authors = afh.readFile();
                 break;
             case 2:
-                lms.removeData(bookMap);
-                afh.updateObjectOnFile(bookMap);
+                if(lms.updateBookData(books, authors, publishers) != null){
+                    bfh.overwriteFile(books);
+                }
+                books = bfh.readFile();
                 break;
             case 3:
-                lms.removeData(publisherMap);
-                afh.updateObjectOnFile(publisherMap);
+                if(lms.updatePublisherData(publishers) != null){
+                    pfh.overwriteFile(publishers);
+                }
+                publishers = pfh.readFile();
                 break;
             default:
                 System.out.println(errorMessage);
@@ -114,19 +127,29 @@ public class AppController {
     }
 
     public void runMenuFour() {
-        dataTypeChoice = lms.getABPDataTypeChoice();
+        dataTypeChoice = lms.getABPDataTypeChoice("delete");
         switch (dataTypeChoice) {
             case 1:
-                lms.removeData(authorMap);
-                afh.deleteObjectFromFile(authorMap);
+                if(lms.deleteAuthorData(authors, books) != null){
+                    afh.overwriteFile(authors);
+                    bfh.overwriteFile(books);
+                }
+                authors = afh.readFile();
+                books = bfh.readFile();
                 break;
             case 2:
-                lms.removeData(bookMap);
-                bfh.deleteObjectFromFile(bookMap);
+                if(lms.deleteBookData(books) != null) {
+                    bfh.overwriteFile(books);
+                }
+                books = bfh.readFile();
                 break;
             case 3:
-                lms.removeData(publisherMap);
-                pfh.deleteObjectFromFile(publisherMap);
+                if(lms.deletePublisherData(publishers, books) != null){
+                    pfh.overwriteFile(publishers);
+                    bfh.overwriteFile(books);
+                }
+                books = bfh.readFile();
+                publishers = pfh.readFile();
                 break;
             default:
                 System.out.println(errorMessage);

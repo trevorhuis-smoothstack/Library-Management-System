@@ -1,47 +1,94 @@
 package com.ss.lms.partone.models;
 
-public class Book extends LibraryData{
-    private int book_id;
-    private String book_name;
-    private int author_id;
-    private int publisher_id;
+import java.io.Serializable;
+
+public class Book implements Serializable{
+    
+    /**
+     *
+     */
+    private static final long serialVersionUID = -5777962224597444798L;
+    private int bookID;
+    private String bookName;
+    private int authorID;
+    private int publisherID;
 
     @Override
     public String toString() {
-        return book_id + ", " + book_name + ", " + author_id + ", " + publisher_id + "\n";
+        return bookID + ", " + bookName + ", " + authorID + ", " + publisherID;
     }
 
-    public int getBook_id() {
-        return book_id;
+    public int getBookID() {
+        return bookID;
     }
 
-    public void setBook_id(int book_id) {
-        this.book_id = book_id;
+    public void setBookID(int bookID) {
+        this.bookID = bookID;
     }
 
-    public String getBook_name() {
-        return book_name;
+    public String getBookName() {
+        return bookName;
     }
 
-    public void setBook_name(String book_name) {
-        this.book_name = book_name;
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
-    public int getAuthor_id() {
-        return author_id;
+    public int getAuthorID() {
+        return authorID;
     }
 
-    public void setAuthor_id(int author_id) {
-        this.author_id = author_id;
+    public void setAuthorID(int authorID) {
+        this.authorID = authorID;
     }
 
-    public int getPublisher_id() {
-        return publisher_id;
+    public int getPublisherID() {
+        return publisherID;
     }
 
-    public void setPublisher_id(int publisher_id) {
-        this.publisher_id = publisher_id;
+    public void setPublisherID(int publisherID) {
+        this.publisherID = publisherID;
     }
 
+    public Book(int bookID, String bookName, int authorID, int publisherID) {
+        this.bookID = bookID;
+        this.bookName = bookName;
+        this.authorID = authorID;
+        this.publisherID = publisherID;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + authorID;
+        result = prime * result + bookID;
+        result = prime * result + ((bookName == null) ? 0 : bookName.hashCode());
+        result = prime * result + publisherID;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Book other = (Book) obj;
+        if (authorID != other.authorID)
+            return false;
+        if (bookID != other.bookID)
+            return false;
+        if (bookName == null) {
+            if (other.bookName != null)
+                return false;
+        } else if (!bookName.equals(other.bookName))
+            return false;
+        if (publisherID != other.publisherID)
+            return false;
+        return true;
+    }
     
 }
