@@ -4,9 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.ss.lms.partone.models.Author;
 
-
 import org.junit.Test;
-
 
 public class AuthorTest {
 

@@ -57,6 +57,7 @@ public class LibraryManagementSystem {
             return s;
         }
     }
+    
     // Menu Functions
     protected void printCRUDMenu() {
         System.out.println("\nWelcome to The Huis LMS");
@@ -319,7 +320,7 @@ public class LibraryManagementSystem {
                 lookupSingleBook(books, authors, publishers);
                 break;
             case 2:
-                books.stream().forEach(e-> 
+                books.stream().forEach(e -> 
                     System.out.println("Title: " + e.getBookName())
                 );
         }
@@ -568,7 +569,7 @@ public class LibraryManagementSystem {
         System.out.println("Publisher updated.");
     }
 
-    // Delete data
+    // Delete-Section data
     public LinkedList<Publisher> deletePublisherData(LinkedList<Publisher> publishers, LinkedList<Book> books) {
         System.out.println("What is the publisher you are deleting?");
         String publisherToFind = getStringInput();
