@@ -17,6 +17,10 @@ public class BookCopies implements Serializable{
         this.noOfCopies = noOfCopies;
     }
 
+    public BookCopies() {
+        
+    }
+
     public Integer getBookId() {
         return bookId;
     }

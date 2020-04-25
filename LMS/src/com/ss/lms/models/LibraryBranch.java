@@ -17,6 +17,10 @@ public class LibraryBranch implements Serializable{
         this.branchAddress = branchAddress;
     }
 
+    public LibraryBranch() {
+        
+    }
+
     public static long getSerialversionuid() {
         return serialVersionUID;
     }

@@ -8,13 +8,13 @@ public class Publisher implements Serializable{
      *
      */
     private static final long serialVersionUID = -4973659968249782246L;
-    private int publisherID;
+    private int publisherId;
     private String publisherName;
     private String address;
     private List<Book> books;
 
-    public Publisher(int publisherID, String publisherName, String address, List<Book> books) {
-        this.publisherID = publisherID;
+    public Publisher(int publisherId, String publisherName, String address, List<Book> books) {
+        this.publisherId = publisherId;
         this.publisherName = publisherName;
         this.address = address;
         this.books = books;
@@ -22,15 +22,15 @@ public class Publisher implements Serializable{
 
     @Override
     public String toString() {
-        return publisherID + ", " + publisherName + ", " + address;
+        return publisherId + ", " + publisherName + ", " + address;
     }
 
     public int getPublisherID() {
-        return publisherID;
+        return publisherId;
     }
 
-    public void setPublisherID(int publisherID) {
-        this.publisherID = publisherID;
+    public void setPublisherID(int publisherId) {
+        this.publisherId = publisherId;
     }
 
     public String getPublisherName() {
@@ -63,7 +63,7 @@ public class Publisher implements Serializable{
         int result = 1;
         result = prime * result + ((address == null) ? 0 : address.hashCode());
         result = prime * result + ((books == null) ? 0 : books.hashCode());
-        result = prime * result + publisherID;
+        result = prime * result + publisherId;
         result = prime * result + ((publisherName == null) ? 0 : publisherName.hashCode());
         return result;
     }
@@ -87,7 +87,7 @@ public class Publisher implements Serializable{
                 return false;
         } else if (!books.equals(other.books))
             return false;
-        if (publisherID != other.publisherID)
+        if (publisherId != other.publisherId)
             return false;
         if (publisherName == null) {
             if (other.publisherName != null)

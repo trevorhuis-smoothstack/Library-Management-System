@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
+
 
 public abstract class BaseDAO<T> {
     public Connection conn = null;
@@ -20,10 +22,28 @@ public abstract class BaseDAO<T> {
             int index = 1;
             for(Object o: vals) {
                 pstmt.setObject(index, o);
+                index++;
             }
         }
         pstmt.executeUpdate();
     }
+
+    public Integer saveWithPK(String sql, Object[] vals) throws ClassNotFoundException, SQLException{
+		PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		if(vals!=null){
+			int index =1;
+			for(Object o: vals){
+				pstmt.setObject(index, o);
+				index++;
+			}
+		}
+		pstmt.executeUpdate();
+		ResultSet rs = pstmt.executeQuery();
+		while(rs.next()){
+			return rs.getInt(1);
+		}
+		return null;
+	}
 
     public List<T> read(String sql, Object[] vals) throws SQLException {
         PreparedStatement pstmt = conn.prepareStatement(sql);

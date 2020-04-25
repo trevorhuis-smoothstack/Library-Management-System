@@ -1,15 +1,23 @@
-// package com.ss.lms.partone;
+package com.ss.lms;
 
-// import java.util.LinkedList;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 // import com.ss.lms.partone.filehandler.AuthorFileHandler;
 // import com.ss.lms.partone.filehandler.BookFileHandler;
 // import com.ss.lms.partone.filehandler.PublisherFileHandler;
-// import com.ss.lms.partone.models.Author;
-// import com.ss.lms.partone.models.Book;
-// import com.ss.lms.partone.models.Publisher;
+import com.ss.lms.models.Author;
+import com.ss.lms.models.LibraryBranch;
+// import com.ss.lms.models.Book;
+// import com.ss.lms.models.Publisher;
+import com.ss.lms.service.ConnectionUtil;
+import com.ss.lms.service.LibrarianService;
 
-// public class AppController {
+public class AppController {
+
+    public static void main(String[] args) throws SQLException {
+    }
 //     Integer dataTypeChoice;
 //     StringBuffer strBuf = new StringBuffer();
 
@@ -154,4 +162,4 @@
 //                 System.out.println(errorMessage);
 //         }
 //     }
-// }
+}

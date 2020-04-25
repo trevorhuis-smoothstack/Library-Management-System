@@ -8,63 +8,66 @@ public class Book implements Serializable{
      *
      */
     private static final long serialVersionUID = -5777962224597444798L;
-    private int bookID;
-    private String bookName;
-    private int authorID;
-    private int publisherID;
+    private int bookId;
+    private String title;
+    private int authorId;
+    private int publisherId;
 
     @Override
     public String toString() {
-        return bookID + ", " + bookName + ", " + authorID + ", " + publisherID;
+        return bookId + ", " + title + ", " + authorId + ", " + publisherId;
     }
 
-    public int getBookID() {
-        return bookID;
+    public int getBookId() {
+        return bookId;
     }
 
-    public void setBookID(int bookID) {
-        this.bookID = bookID;
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
     }
 
-    public String getBookName() {
-        return bookName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public int getAuthorID() {
-        return authorID;
+    public int getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthorID(int authorID) {
-        this.authorID = authorID;
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
     }
 
-    public int getPublisherID() {
-        return publisherID;
+    public int getPublisherId() {
+        return publisherId;
     }
 
-    public void setPublisherID(int publisherID) {
-        this.publisherID = publisherID;
+    public void setPublisherId(int publisherId) {
+        this.publisherId = publisherId;
     }
 
-    public Book(int bookID, String bookName, int authorID, int publisherID) {
-        this.bookID = bookID;
-        this.bookName = bookName;
-        this.authorID = authorID;
-        this.publisherID = publisherID;
+    public Book(int bookId, String title, int authorId, int publisherId) {
+        this.bookId = bookId;
+        this.title = title;
+        this.authorId = authorId;
+        this.publisherId = publisherId;
     }
 
-    @Override
+    public Book() {
+	}
+
+	@Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + authorID;
-        result = prime * result + bookID;
-        result = prime * result + ((bookName == null) ? 0 : bookName.hashCode());
-        result = prime * result + publisherID;
+        result = prime * result + authorId;
+        result = prime * result + bookId;
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + publisherId;
         return result;
     }
 
@@ -77,16 +80,16 @@ public class Book implements Serializable{
         if (getClass() != obj.getClass())
             return false;
         Book other = (Book) obj;
-        if (authorID != other.authorID)
+        if (authorId != other.authorId)
             return false;
-        if (bookID != other.bookID)
+        if (bookId != other.bookId)
             return false;
-        if (bookName == null) {
-            if (other.bookName != null)
+        if (title == null) {
+            if (other.title != null)
                 return false;
-        } else if (!bookName.equals(other.bookName))
+        } else if (!title.equals(other.title))
             return false;
-        if (publisherID != other.publisherID)
+        if (publisherId != other.publisherId)
             return false;
         return true;
     }

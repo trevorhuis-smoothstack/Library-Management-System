@@ -32,10 +32,10 @@ public class BookTest {
     @Test
     public void gettersAndSettersTest() {
         Book book = new Book(1, "Fake Title", 1, 1);
-        assertEquals(book.getBookID(), 1);
-        assertEquals(book.getBookName(), "Fake Title");
-        assertEquals(book.getAuthorID(), 1);
-        assertEquals(book.getPublisherID(), 1);
+        assertEquals(book.getBookId(), 1);
+        assertEquals(book.getTitle(), "Fake Title");
+        assertEquals(book.getAuthorId(), 1);
+        assertEquals(book.getPublisherId(), 1);
 
     }
 }

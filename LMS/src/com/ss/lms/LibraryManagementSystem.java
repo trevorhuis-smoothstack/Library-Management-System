@@ -108,7 +108,7 @@
 //     public String createAuthorData(LinkedList<Author> authors) {
 //         Author author;
 //         String authorName;
-//         Integer authorID;
+//         Integer authorId;
 
 //         System.out.println("Enter the new author's name:");
 //         authorName = getStringInput();
@@ -123,12 +123,12 @@
 //         }
 
 //         if (authors.size() > 0) {
-//             authorID = authors.getLast().getAuthorID() + 1;
+//             authorId = authors.getLast().getAuthorID() + 1;
 //         } else {
-//             authorID = 1;
+//             authorId = 1;
 //         }
 
-//         author = new Author(authorID, authorName);
+//         author = new Author(authorId, authorName);
 
 //         System.out.println("Author Created!\n");
 
@@ -140,7 +140,7 @@
 //         Author author;
 //         Publisher publisher;
 //         String bookName;
-//         Integer bookID;
+//         Integer bookId;
         
 //         System.out.println("Enter the new books's title:");
 //         bookName = getStringInput();
@@ -166,12 +166,12 @@
 //         }
 
 //         if (books.size() > 0) {
-//             bookID = books.getLast().getBookID() + 1;
+//             bookId = books.getLast().getBookID() + 1;
 //         } else {
-//             bookID = 1;
+//             bookId = 1;
 //         }
 
-//         book = new Book(bookID, bookName, author.getAuthorID(), publisher.getPublisherID());
+//         book = new Book(bookId, bookName, author.getAuthorID(), publisher.getPublisherID());
 
 //         System.out.println("Book Created!\n");
 
@@ -214,7 +214,7 @@
 //         Publisher publisher;
 //         String publisherName;
 //         String publisherAddress;
-//         Integer publisherID;
+//         Integer publisherId;
 
 //         System.out.println("Enter the new publisher's name:");
 //         publisherName = getStringInput();
@@ -232,12 +232,12 @@
 //         publisherAddress = getStringInput();
 
 //         if (publishers.size() > 0) {
-//             publisherID = publishers.getLast().getPublisherID() + 1;
+//             publisherId = publishers.getLast().getPublisherID() + 1;
 //         } else {
-//             publisherID = 1;
+//             publisherId = 1;
 //         }
 
-//         publisher = new Publisher(publisherID, publisherName, publisherAddress);
+//         publisher = new Publisher(publisherId, publisherName, publisherAddress);
 
 //         System.out.println("Publisher Created!\n");
 //         return publisher.toString();
@@ -339,16 +339,16 @@
         
 //         Book book = listOutput.get(0);
         
-//         int authorID = book.getAuthorID();
-//         int publisherID = book.getPublisherID();
+//         int authorId = book.getAuthorID();
+//         int publisherId = book.getPublisherID();
 
 //         String authorOutput = authors.stream()
-//             .filter(e -> e.getAuthorID() == authorID)
+//             .filter(e -> e.getAuthorID() == authorId)
 //             .map(e -> e.getAuthorName())
 //             .collect(Collectors.joining());
 
 //         String publisherOutput = publishers.stream()
-//             .filter(e -> e.getPublisherID() == publisherID)
+//             .filter(e -> e.getPublisherID() == publisherId)
 //             .map(e -> e.getPublisherName())
 //             .collect(Collectors.joining());
 
@@ -400,10 +400,10 @@
 
 //         Publisher publisher = listOutput.get(0);
 
-//         int publisherID = publisher.getPublisherID();
+//         int publisherId = publisher.getPublisherID();
 
 //         List<Book> bookOutput = books.stream()
-//             .filter(e -> e.getPublisherID() == publisherID)
+//             .filter(e -> e.getPublisherID() == publisherId)
 //             .collect(Collectors.toList());
 
 //         System.out.println("Books by: " + publisher.getPublisherName());
