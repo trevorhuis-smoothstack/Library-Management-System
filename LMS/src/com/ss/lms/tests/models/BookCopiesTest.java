@@ -1,5 +1,6 @@
 package com.ss.lms.tests.models;
 
-public class BookCopies {
+public class BookCopiesTest {
 
+    
 }

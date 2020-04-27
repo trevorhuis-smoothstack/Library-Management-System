@@ -34,7 +34,6 @@ public class BookTest {
         Book book = new Book(1, "Fake Title", 1, 1);
         assertEquals(book.getBookId(), 1);
         assertEquals(book.getTitle(), "Fake Title");
-        assertEquals(book.getAuthorId(), 1);
         assertEquals(book.getPublisherId(), 1);
 
     }

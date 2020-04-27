@@ -3,19 +3,17 @@ package com.ss.lms.models;
 import java.io.Serializable;
 
 public class Book implements Serializable{
-    
     /**
      *
      */
-    private static final long serialVersionUID = -5777962224597444798L;
+    private static final long serialVersionUID = -3859753496101899553L;
     private int bookId;
     private String title;
-    private int authorId;
     private int publisherId;
 
     @Override
     public String toString() {
-        return bookId + ", " + title + ", " + authorId + ", " + publisherId;
+        return bookId + ", " + title + ", " + publisherId;
     }
 
     public int getBookId() {
@@ -34,14 +32,6 @@ public class Book implements Serializable{
         this.title = title;
     }
 
-    public int getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
-    }
-
     public int getPublisherId() {
         return publisherId;
     }
@@ -53,21 +43,19 @@ public class Book implements Serializable{
     public Book(int bookId, String title, int authorId, int publisherId) {
         this.bookId = bookId;
         this.title = title;
-        this.authorId = authorId;
         this.publisherId = publisherId;
     }
 
     public Book() {
 	}
 
-	@Override
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + authorId;
         result = prime * result + bookId;
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
         result = prime * result + publisherId;
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
         return result;
     }
 
@@ -80,18 +68,17 @@ public class Book implements Serializable{
         if (getClass() != obj.getClass())
             return false;
         Book other = (Book) obj;
-        if (authorId != other.authorId)
-            return false;
         if (bookId != other.bookId)
+            return false;
+        if (publisherId != other.publisherId)
             return false;
         if (title == null) {
             if (other.title != null)
                 return false;
         } else if (!title.equals(other.title))
             return false;
-        if (publisherId != other.publisherId)
-            return false;
         return true;
     }
+
     
 }

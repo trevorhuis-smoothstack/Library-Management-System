@@ -1,10 +1,5 @@
 package com.ss.lms.tests.models;
 
-import static org.junit.Assert.assertEquals;
-
-import com.ss.lms.models.Publisher;
-
-import org.junit.Test;
 
 public class PublisherTest {
     // @Test

@@ -49,12 +49,20 @@ public abstract class BaseDAO<T> {
         PreparedStatement pstmt = conn.prepareStatement(sql);
 
         if(vals!=null) {
+            if(vals[0] == Boolean.TRUE) {
+                pstmt.setString(1, "%" + vals[1] + "%");
+                vals = null;
+            }
+        }
+
+        if(vals!=null) {
             int index = 1;
             for(Object o: vals) {
                 pstmt.setObject(index, o);
                 index++;
             }
         }
+
         return extractData(pstmt.executeQuery());
     }
 

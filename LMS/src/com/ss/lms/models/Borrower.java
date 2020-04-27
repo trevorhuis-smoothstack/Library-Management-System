@@ -19,7 +19,10 @@ public class Borrower implements Serializable{
         this.phone = phone;
     }
 
-    public Integer getCardNo() {
+    public Borrower() {
+	}
+
+	public Integer getCardNo() {
         return cardNo;
     }
 

@@ -3,7 +3,7 @@ package com.ss.lms.models;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class BookLoans implements Serializable{
+public class BookLoan implements Serializable{
     /**
      *
      */
@@ -15,7 +15,7 @@ public class BookLoans implements Serializable{
     private Timestamp dueDate;
     private Timestamp dateIn;
 
-    public BookLoans(Integer bookId, Integer branchId, Integer cardNo, Timestamp dateOut, Timestamp dueDate, Timestamp dateIn) {
+    public BookLoan(Integer bookId, Integer branchId, Integer cardNo, Timestamp dateOut, Timestamp dueDate, Timestamp dateIn) {
         this.bookId = bookId;
         this.branchId = branchId;
         this.cardNo = cardNo;
@@ -24,7 +24,10 @@ public class BookLoans implements Serializable{
         this.dateIn = dateIn;
     }
 
-    public Integer getBookId() {
+    public BookLoan() {
+	}
+
+	public Integer getBookId() {
         return bookId;
     }
 
@@ -93,7 +96,7 @@ public class BookLoans implements Serializable{
             return false;
         if (getClass() != obj.getClass())
             return false;
-        BookLoans other = (BookLoans) obj;
+        BookLoan other = (BookLoan) obj;
         if (bookId == null) {
             if (other.bookId != null)
                 return false;

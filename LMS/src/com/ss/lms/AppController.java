@@ -1,22 +1,42 @@
 package com.ss.lms;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
-// import com.ss.lms.partone.filehandler.AuthorFileHandler;
-// import com.ss.lms.partone.filehandler.BookFileHandler;
-// import com.ss.lms.partone.filehandler.PublisherFileHandler;
-import com.ss.lms.models.Author;
-import com.ss.lms.models.LibraryBranch;
-// import com.ss.lms.models.Book;
-// import com.ss.lms.models.Publisher;
-import com.ss.lms.service.ConnectionUtil;
-import com.ss.lms.service.LibrarianService;
+import com.ss.lms.service.TerminalService;
 
 public class AppController {
 
-    public static void main(String[] args) throws SQLException {
+    // public static void main(String[] args) throws SQLException {
+    //     LibrarianService libServ = new LibrarianService();
+    //     BookCopies entry = new BookCopies(1, 1, 4);
+    //     libServ.updateCopies(entry);
+    //     // Changed an existing entry
+    //     BookCopies entryReturn = libServ.getAnEntryOfBookCopies(1, 1);
+    //     System.out.println(entryReturn);
+    // }
+
+    public static void main(String[] args) throws SQLException{
+
+        TerminalService term = new TerminalService();
+
+        Integer userType = term.openingMenu();
+
+        while(userType != 4) {
+            switch (userType) {
+                case 1:
+                    term.librarianFunctionality();
+                    break;
+                case 2:
+                    term.adminFunctionality();
+                    break;
+                case 3:
+                    term.borrowerFunctionality();
+                    break;
+                case 4:
+                    break;
+            }
+            userType = term.openingMenu();
+        }
     }
 //     Integer dataTypeChoice;
 //     StringBuffer strBuf = new StringBuffer();

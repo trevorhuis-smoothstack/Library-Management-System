@@ -2,24 +2,42 @@ package com.ss.lms.service;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.ss.lms.dao.BookCopiesDAO;
+import com.ss.lms.dao.BookDAO;
 import com.ss.lms.dao.LibraryBranchDAO;
+import com.ss.lms.models.Book;
 import com.ss.lms.models.BookCopies;
 import com.ss.lms.models.LibraryBranch;
 
 public class LibrarianService {
-    private final TerminalService terminal = new TerminalService();
     public ConnectionUtil connUtil = new ConnectionUtil();
 
-    public boolean updateBranchWithTerminal(List<LibraryBranch> branches) throws SQLException {
-        LibraryBranch lb = terminal.LibrarianBranchMenu(branches);
-
-        return updateBranch(lb);
-    }
-
-    public boolean updateCopies(BookCopies entry) {
-        return true;
+    public boolean updateCopies(BookCopies entry) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = connUtil.getConnection();
+            BookCopiesDAO entriesDAO = new BookCopiesDAO(conn);
+            List<BookCopies> entries = entriesDAO.readAnEntry(entry.getBranchId(), entry.getBookId());
+            if (entries.size() == 0) {
+                entriesDAO.addBookCopiesEntry(entry);
+            } else {
+                System.out.println("No Entry found!!!");
+                entriesDAO.updateBookCopiesEntry(entry); 
+            }
+            conn.commit();
+            return true;
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            conn.rollback();
+            return false;
+        } finally {
+			if(conn!=null){
+				conn.close();
+			}
+		}
     }
 
     public boolean updateBranch(LibraryBranch branch) throws SQLException {
@@ -34,6 +52,83 @@ public class LibrarianService {
             e.printStackTrace();
             conn.rollback();
             return false;
+        } finally {
+			if(conn!=null){
+				conn.close();
+			}
+		}
+    }
+
+    public List<LibraryBranch> getBranches() throws SQLException {
+        Connection conn = null;
+        try {
+            conn = connUtil.getConnection();
+            LibraryBranchDAO libDAO = new LibraryBranchDAO(conn);
+            return libDAO.readAllBranches();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+			if(conn!=null){
+				conn.close();
+			}
+		}
+    }
+
+    public List<Book> getBooksWithSearch(String search) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = connUtil.getConnection();
+            BookDAO bookDAO = new BookDAO(conn);
+            return bookDAO.readAllBooksWithSearch(search);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+			if(conn!=null){
+				conn.close();
+			}
+		}
+    }
+
+    public BookCopies getAnEntryOfBookCopies(Integer branchId, Integer bookId) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = connUtil.getConnection();
+            BookCopiesDAO entriesDAO = new BookCopiesDAO(conn);
+            List<BookCopies> entries = entriesDAO.readAnEntry(branchId, bookId);
+            if(entries.size() == 0) {
+                return null;
+            }
+            return entriesDAO.readAnEntry(branchId, bookId).get(0);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+			if(conn!=null){
+				conn.close();
+			}
+		}
+    }
+
+    public List<Book> getBooksAtABranch(LibraryBranch branch) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = connUtil.getConnection();
+            BookCopiesDAO entriesDAO = new BookCopiesDAO(conn);
+            List<Book> books = new ArrayList<>();
+            BookDAO bookDAO = new BookDAO(conn);
+            List<BookCopies> entries = entriesDAO.readBooksFromABranch(branch.getBranchId());
+            if(entries.size() == 0) {
+                return null;
+            }
+            for(BookCopies entry: entries) {
+                books.add(bookDAO.readABookById(entry.getBookId()));
+            }
+            return books;
+        } catch ( SQLException e) {
+            e.printStackTrace();
+            return null;
         } finally {
 			if(conn!=null){
 				conn.close();

@@ -12,9 +12,8 @@ public class ConnectionUtil {
 	public Connection getConnection(){
 		Connection conn = null;
 		Properties prop = new Properties();
-		try(InputStream input = new FileInputStream("LMS/resources/config/lms.properties")){
+		try(InputStream input = new FileInputStream("C:/Users/Trevor/Documents/Software/Smoothstack/Library-Management-System/LMS/resources/config/lms.properties")){
 			prop.load(input);
-			System.out.println("Loaded property values."+prop.get("user"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
