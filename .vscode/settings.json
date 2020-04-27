@@ -1,0 +1,8 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\GCIT\\lib\\hamcrest-core-1.3.jar",
+        "c:\\GCIT\\lib\\junit-4.13.jar",
+        "c:\\GCIT\\lib\\mysql-connector-java-8.0.19.jar"
+    ]
+}
