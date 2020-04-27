@@ -129,4 +129,10 @@ public class BookLoan implements Serializable{
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "BookLoan [bookId=" + bookId + ", branchId=" + branchId + ", cardNo=" + cardNo + ", dateIn=" + dateIn
+                + ", dateOut=" + dateOut + ", dueDate=" + dueDate + "]";
+    }
 }

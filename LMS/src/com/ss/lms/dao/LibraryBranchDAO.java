@@ -13,8 +13,8 @@ public class LibraryBranchDAO extends BaseDAO<LibraryBranch>{
         super(conn);
     }
 
-    public void addBranch(LibraryBranch branch) throws ClassNotFoundException, SQLException {
-		saveWithPK("INSERT INTO tbl_library_branch (branchName, branchAddress) VALUES (?, ?)", new Object[] {branch.getBranchName(), branch.getBranchAddress()});
+    public Integer addBranch(LibraryBranch branch) throws ClassNotFoundException, SQLException {
+		return saveWithPK("INSERT INTO tbl_library_branch (branchName, branchAddress) VALUES (?, ?)", new Object[] {branch.getBranchName(), branch.getBranchAddress()});
 	}
 
 	public void updateBranch(LibraryBranch branch) throws ClassNotFoundException, SQLException {
@@ -27,6 +27,10 @@ public class LibraryBranchDAO extends BaseDAO<LibraryBranch>{
 	
 	public List<LibraryBranch> readAllBranches() throws ClassNotFoundException, SQLException{
 		return read("SELECT * FROM tbl_library_branch", null);
+	}
+
+	public List<LibraryBranch> readABranch(Integer branchId) throws SQLException{
+		return read("SELECT * FROM tbl_library_branch WHERE branchId = ?", new Object[]{ branchId });
 	}
 
 	@Override

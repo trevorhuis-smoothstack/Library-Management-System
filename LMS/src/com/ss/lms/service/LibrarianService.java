@@ -123,7 +123,7 @@ public class LibrarianService {
                 return null;
             }
             for(BookCopies entry: entries) {
-                books.add(bookDAO.readABookById(entry.getBookId()));
+                books.add(bookDAO.readABookById(entry.getBookId()).get(0));
             }
             return books;
         } catch ( SQLException e) {

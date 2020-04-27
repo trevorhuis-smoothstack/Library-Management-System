@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.ss.lms.models.Book;
 import com.ss.lms.models.BookLoan;
 import com.ss.lms.models.Borrower;
 import com.ss.lms.service.BorrowerService;
@@ -50,5 +51,15 @@ public class TestBorrowerService {
 
         List<BookLoan> loans = borService.getLoansFromABorrower(1);
         assertEquals(loans.get(0).getBookId() == 1, true);
+    }
+
+    @Test
+    public void getBookNamesFromALoanList() throws SQLException {
+        BorrowerService borService = new BorrowerService();
+        List<BookLoan> loans = borService.getLoansFromABorrower(5);
+
+        List<Book> books = borService.getBookNamesFromLoans(loans);
+
+        assertEquals(books.get(0) instanceof Book, true);
     }
 }

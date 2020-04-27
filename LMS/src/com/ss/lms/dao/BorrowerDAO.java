@@ -13,13 +13,13 @@ public class BorrowerDAO extends BaseDAO<Borrower> {
         super(conn);
     }
 
-    public void addBorrower(Borrower borrower) throws ClassNotFoundException, SQLException {
-        save("INSERT INTO tbl_borrower (cardNo, name, address, phone) VALUES (?, ?, ?, ?)", new Object[] { borrower.getCardNo(), borrower.getName(), borrower.getAddress(), borrower.getPhone() });
+    public Integer addBorrower(Borrower borrower) throws ClassNotFoundException, SQLException {
+        return saveWithPK("INSERT INTO tbl_borrower (name, address, phone) VALUES (?, ?, ?)", new Object[] { borrower.getName(), borrower.getAddress(), borrower.getPhone() });
     }
 
     public void updateBorrower(Borrower borrower) throws ClassNotFoundException, SQLException {
         save("UPDATE tbl_borrower SET name = ?, address = ?, phone = ? WHERE cardNo = ?",
-                new Object[] { borrower.getName(), borrower.getAddress(), borrower.getPhone(), borrower.getCardNo()} );
+                new Object[] { borrower.getName(), borrower.getAddress(), borrower.getPhone(), borrower.getCardNo() } );
     }
 
     public void deleteBorrower(Borrower borrower) throws ClassNotFoundException, SQLException {

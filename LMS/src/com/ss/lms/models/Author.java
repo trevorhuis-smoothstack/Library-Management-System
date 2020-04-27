@@ -23,7 +23,16 @@ public class Author implements Serializable{
 
     }
 
-    @Override
+    public Author(Integer authorId, String authorName) {
+        this.authorId = authorId;
+        this.authorName = authorName;
+	}
+
+	public Author(String authorName) {
+        this.authorName = authorName;
+	}
+
+	@Override
     public String toString() {
         return authorId + ", " + authorName;
     }

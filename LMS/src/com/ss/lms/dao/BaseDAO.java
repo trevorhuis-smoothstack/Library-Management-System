@@ -37,12 +37,18 @@ public abstract class BaseDAO<T> {
 				index++;
 			}
 		}
-		pstmt.executeUpdate();
-		ResultSet rs = pstmt.executeQuery();
-		while(rs.next()){
-			return rs.getInt(1);
-		}
-		return null;
+        pstmt.executeUpdate();
+
+        int autoIncKeyFromApi = -1;
+        ResultSet rs = pstmt.getGeneratedKeys();
+
+        if (rs.next()) {
+            autoIncKeyFromApi = rs.getInt(1);
+        } else {
+            throw new SQLException();
+        }
+
+        return autoIncKeyFromApi;
 	}
 
     public List<T> read(String sql, Object[] vals) throws SQLException {

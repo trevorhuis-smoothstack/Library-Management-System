@@ -5,11 +5,21 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import com.ss.lms.models.Author;
 import com.ss.lms.models.Book;
 import com.ss.lms.models.BookCopies;
 import com.ss.lms.models.BookLoan;
 import com.ss.lms.models.Borrower;
+import com.ss.lms.models.Genre;
 import com.ss.lms.models.LibraryBranch;
+import com.ss.lms.models.Publisher;
+import com.ss.lms.service.admin.AdminAuthorService;
+import com.ss.lms.service.admin.AdminBookService;
+import com.ss.lms.service.admin.AdminBorrowerService;
+import com.ss.lms.service.admin.AdminBranchService;
+import com.ss.lms.service.admin.AdminGenreService;
+import com.ss.lms.service.admin.AdminOverrideLoanService;
+import com.ss.lms.service.admin.AdminPublisherService;
 
 public class TerminalService {
     private final Scanner reader = new Scanner(System.in);
@@ -361,7 +371,457 @@ public class TerminalService {
         }
     }
 
-    public void adminFunctionality() {
-	}
+    public void adminFunctionality() throws SQLException {
+        String password = "";
+        while (!password.equals("smoothstack")) {
+            System.out.println("Enter the admin password or enter 'quit':");
+            password = getStringInput();
+            if (password.equals("quit")) {
+                return;
+            }
+        }
+
+        System.out.println("Hello Trevor!");
+        adminMenuOne();
+    }
+    
+    public void adminMenuOne() throws SQLException {
+        Integer choice = -1;
+
+        while (choice != 7) {
+            System.out.println("1) Add/Update/Delete/Read Book and Author");
+            System.out.println("2) Add/Update/Delete/Read Genres");
+            System.out.println("3) Add/Update/Delete/Read Publishers");
+            System.out.println("4) Add/Update/Delete/Read Library Branches");
+            System.out.println("5) Add/Update/Delete/Read Borrowers");
+            System.out.println("6) Over-ride Due Date for a Book Loan");
+            System.out.println("7) Quit to previous menu");
+
+            choice = getIntInput();
+
+            while (choice < 1 || choice > 7) {
+                System.out.println("Not a valid choice.");
+                choice = getIntInput();
+            }
+
+            switch (choice) {
+                case 1:
+                    adminBookAndAuthorMenu();
+                    break;
+                case 2:
+                    adminGenreMenu();
+                    break;
+                case 3:
+                    adminPublisherMenu();
+                    break;
+                case 4:
+                    adminLibraryBranchMenu();
+                    break;
+                case 5:
+                    adminBorrowerMenu();
+                    break;
+                case 6:
+                    adminOverRideLoanMenu();
+                    break;
+                case 7:
+                    break;
+            }
+        }
+        return;
+    }
+
+    private void adminOverRideLoanMenu() throws SQLException {
+        AdminOverrideLoanService aLoanService = new AdminOverrideLoanService();
+        BorrowerService borService = new BorrowerService();
+
+        System.out.println("Enter borrower ID you updating:");
+        Integer idToUpdate = getIntInput();
+        
+        List<BookLoan> checkedOutLoans = borService.getLoansFromABorrower(idToUpdate);
+        if(checkedOutLoans == null){
+            return;
+        }
+        List<Book> checkedOutBooks = borService.getBookNamesFromLoans(checkedOutLoans);
+
+        System.out.println("Which book are you overriding?");
+        for(int i = 0; i < checkedOutBooks.size();i++){
+            System.out.println((i + 1) + ") " + checkedOutBooks.get(i).getTitle());
+        }
+        System.out.println((checkedOutBooks.size() + 1) + ") Cancel overrride. Back to previous menu.");
+        Integer choice = getIntInput();
+        if(choice == checkedOutBooks.size() + 1) {
+            return;
+        }
+        aLoanService.addAWeekToALoan(checkedOutLoans.get(choice - 1));
+    }
+
+    private void adminBorrowerMenu() throws SQLException {
+        AdminBorrowerService aService = new AdminBorrowerService();
+
+        Integer choice = -1;
+        while (choice != 5) {
+            System.out.println("1)	Read all Borrowers");
+            System.out.println("2)  Add a Borrower");
+            System.out.println("3)  Delete a Borrower");
+            System.out.println("4)  Update a Borrower");
+            System.out.println("5)  Quit to previous menu");
+
+            choice = getIntInput();
+
+            while (choice < 1 || choice > 5) {
+                System.out.println("Not a valid choice.");
+                choice = getIntInput();
+            }
+
+            switch (choice) {
+                case 1:
+                    List<Borrower> borrowers = aService.readAllBorrowers();
+                    for(Borrower bor: borrowers) {
+                        System.out.println(bor.toString());
+                        
+                    }
+                    break;
+                case 2:
+                    System.out.println("Enter the borrowers Name:");
+                    String name = getStringInput();
+                    System.out.println("Enter the borrowers Address:");
+                    String address = getStringInput();
+                    System.out.println("Enter the borrowers Phone Number:");
+                    String phone = getStringInput();
+                    Borrower newBor = new Borrower(name, address, phone);
+                    aService.addABorrower(newBor);
+                    break;
+                case 3:
+                    System.out.println("Enter the Borrowers Card Number:");
+                    Integer deleteId = getIntInput();
+                    Borrower borToDelete = aService.readABorrower(deleteId);
+                    aService.deleteABorrower(borToDelete);
+                    break;
+                case 4:
+                    System.out.println("Enter the Borrowers Card Number:");
+                    Integer updateId = getIntInput();
+                    Borrower borToUpdate = aService.readABorrower(updateId);
+                    System.out.println("Enter the borrowers new name or 'N/A' for no change:");
+                    String newName = getStringInput();
+                    if ("n/a".equalsIgnoreCase(newName)) {
+                        newName = borToUpdate.getName();
+                    }
+                    System.out.println("Enter the borrowers new address or 'N/A' for no change:");
+                    String newAddress = getStringInput();
+                    if ("n/a".equalsIgnoreCase(newAddress)) {
+                        newAddress = borToUpdate.getAddress();
+                    }
+                    System.out.println("Enter the borrowers new phone number or 'N/A' for no change:");
+                    String newNumber = getStringInput();
+                    if ("n/a".equalsIgnoreCase(newNumber)) {
+                        newNumber = borToUpdate.getPhone();
+                    }
+                    borToUpdate.setAddress(newAddress);
+                    borToUpdate.setName(newName);
+                    borToUpdate.setPhone(newNumber);
+                    aService.updateABorrower(borToUpdate);
+                    break;
+                case 5:
+                    break;
+            }
+        }
+        return;
+
+    }
+
+    private void adminLibraryBranchMenu() throws SQLException {
+        AdminBranchService aBranchService = new AdminBranchService();
+        LibrarianService libService = new LibrarianService();
+
+        Integer choice = -1;
+        while (choice != 5) {
+            System.out.println("1)	Read all Branch");
+            System.out.println("2)  Add a Branch");
+            System.out.println("3)  Delete a Branch");
+            System.out.println("4)  Update a Branch");
+            System.out.println("5)  Quit to previous menu");
+
+            choice = getIntInput();
+
+            while (choice < 1 || choice > 5) {
+                System.out.println("Not a valid choice.");
+                choice = getIntInput();
+            }
+
+            switch (choice) {
+                case 1:
+                    List<LibraryBranch> branches = aBranchService.readAllBranches();
+                    for(LibraryBranch branch: branches) {
+                        System.out.println(branch.toString());
+                        
+                    }
+                    break;
+                case 2:
+                    System.out.println("Enter the branches Name:");
+                    String branchName = getStringInput();
+                    System.out.println("Enter the branches Address:");
+                    String address = getStringInput();
+                    LibraryBranch branch = new LibraryBranch(branchName, address);
+                    aBranchService.addABranch(branch);
+                    break;
+                case 3:
+                    LibraryBranch deleteBranch = selectABranchMenu(libService.getBranches());
+                    aBranchService.deleteABranch(deleteBranch);
+                    break;
+                case 4:
+                    LibraryBranch updateBranch = selectABranchMenu(libService.getBranches());
+                    updateBranchInformation(updateBranch);
+                    break;
+                case 5:
+                    break;
+            }
+        }
+        return;
+    }
+
+    private void adminPublisherMenu() throws SQLException {
+        AdminPublisherService aPublisherService = new AdminPublisherService();
+
+        Integer choice = -1;
+        while (choice != 5) {
+            System.out.println("1)	Read all Publisher");
+            System.out.println("2)  Add a Publisher");
+            System.out.println("3)  Delete a Publisher");
+            System.out.println("4)  Update a Publisher");
+            System.out.println("5)  Quit to previous menu");
+
+            choice = getIntInput();
+
+            while (choice < 1 || choice > 5) {
+                System.out.println("Not a valid choice.");
+                choice = getIntInput();
+            }
+
+            switch (choice) {
+                case 1:
+                    List<Publisher> publishers = aPublisherService.readAllPublishers();
+                    for(Publisher pub: publishers) {
+                        System.out.println(pub.toString());
+                        
+                    }
+                    break;
+                case 2:
+                    System.out.println("Enter the publishers Name:");
+                    String name = getStringInput();
+                    System.out.println("Enter the publishers Address:");
+                    String address = getStringInput();
+                    System.out.println("Enter the publishers Phone Number:");
+                    String phone = getStringInput();
+                    Publisher newPub = new Publisher(name, address, phone);
+                    aPublisherService.addAPublisher(newPub);
+                    break;
+                case 3:
+                    System.out.println("Enter the Publishers ID:");
+                    Integer deleteId = getIntInput();
+                    Publisher pubToDelete = aPublisherService.readAPublisher(deleteId);
+                    aPublisherService.deleteAPublisher(pubToDelete);
+                    break;
+                case 4:
+                    System.out.println("Enter the Publishers ID:");
+                    Integer updateId = getIntInput();
+                    Publisher pubToUpdate = aPublisherService.readAPublisher(updateId);
+                    System.out.println("Enter the publishers new name or 'N/A' for no change:");
+                    String newName = getStringInput();
+                    if ("n/a".equalsIgnoreCase(newName)) {
+                        newName = pubToUpdate.getPublisherName();
+                    }
+                    System.out.println("Enter the publishers new address or 'N/A' for no change:");
+                    String newAddress = getStringInput();
+                    if ("n/a".equalsIgnoreCase(newAddress)) {
+                        newAddress = pubToUpdate.getAddress();
+                    }
+                    System.out.println("Enter the publishers new phone number or 'N/A' for no change:");
+                    String newNumber = getStringInput();
+                    if ("n/a".equalsIgnoreCase(newNumber)) {
+                        newNumber = pubToUpdate.getPhone();
+                    }
+                    pubToUpdate.setAddress(newAddress);
+                    pubToUpdate.setPublisherName(newName);
+                    pubToUpdate.setPhone(newNumber);
+                    aPublisherService.updateAPublisher(pubToUpdate);
+                    break;
+                case 5:
+                    break;
+            }
+        }
+        return;
+
+    }
+
+    private void adminGenreMenu() throws SQLException {
+        AdminGenreService aGenreService = new AdminGenreService();
+
+        Integer choice = -1;
+        while (choice != 5) {
+            System.out.println("1)	Read all Publisher");
+            System.out.println("2)  Add a Publisher");
+            System.out.println("3)  Delete a Publisher");
+            System.out.println("4)  Update a Publisher");
+            System.out.println("5)  Quit to previous menu");
+
+            choice = getIntInput();
+
+            while (choice < 1 || choice > 5) {
+                System.out.println("Not a valid choice.");
+                choice = getIntInput();
+            }
+
+            switch (choice) {
+                case 1:
+                    List<Genre> genres = aGenreService.readAllGenres();
+                    for(Genre genre: genres) {
+                        System.out.println(genre.toString());
+                        
+                    }
+                    break;
+                case 2:
+                    System.out.println("Enter the name of the new Genre:");
+                    String name = getStringInput();
+                    Genre newGenre = new Genre(name);
+                    aGenreService.addAGenre(newGenre);
+                    break;
+                case 3:
+                    System.out.println("Enter the Genre ID:");
+                    Integer deleteId = getIntInput();
+                    Genre genreToDelete = aGenreService.readAGenre(deleteId);
+                    aGenreService.deleteAGenre(genreToDelete);
+                    break;
+                case 4:
+                    System.out.println("Enter the Genres ID:");
+                    Integer updateId = getIntInput();
+                    Genre genreToUpdate = aGenreService.readAGenre(updateId);
+                    System.out.println("Enter the publishers new name or 'N/A' for no change:");
+                    String newName = getStringInput();
+                    if ("n/a".equalsIgnoreCase(newName)) {
+                        newName = genreToUpdate.getGenreName();
+                    }
+                    genreToUpdate.setGenreName(newName);
+                    aGenreService.updateAGenre(genreToUpdate);
+                    break;
+                case 5:
+                    break;
+            }
+        }
+        return;
+
+    }
+
+    private void adminBookAndAuthorMenu() throws SQLException {
+        AdminBookService aBookService = new AdminBookService();
+        AdminAuthorService aAuthorService = new AdminAuthorService();
+        AdminPublisherService aPublisherService = new AdminPublisherService();
+        AdminGenreService aGenreService = new AdminGenreService();
+        AdminBorrowerService aBorrowerService = new AdminBorrowerService();
+
+        Integer choice = -1;
+        while (choice != 5) {
+            System.out.println("1)	Read the Books in LMS");
+            System.out.println("2)  Add a Book");
+            System.out.println("3)  Delete a Book");
+            System.out.println("4)  Update a Book");
+            System.out.println("5)  Quit to previous menu");
+
+            choice = getIntInput();
+
+            while (choice < 1 || choice > 5) {
+                System.out.println("Not a valid choice.");
+                choice = getIntInput();
+            }
+
+            switch (choice) {
+                case 1:
+                    List<Book> books = aBookService.readAllBooks();
+                    for(Book book: books) {
+                        System.out.println(book.toString());  
+                    }
+                    break;
+                case 2:
+                    // Title
+                    System.out.println("Enter the books name:");
+                    String title = getStringInput();
+
+                    // Publisher
+                    List<Publisher> pubs = aPublisherService.readAllPublishers();
+                    for(Publisher pub: pubs) {
+                        System.out.println(pub.toString());
+                    }
+                    System.out.println("Enter the id of the publisher:");
+                    Integer pubChoice = getIntInput();
+                    while (choice < 1 || choice > pubs.size()) {
+                        System.out.println("Not a valid choice.");
+                        pubChoice = getIntInput();
+                    }
+                    Publisher pub = pubs.get(pubChoice);
+
+                    // Author
+                    System.out.println("Enter the author of the book");
+                    String author = getStringInput();
+                    Author newAuthor = new Author(author);
+                    Integer authorPK = aAuthorService.addAuthor(newAuthor);
+                    newAuthor.setAuthorId(authorPK);
+
+                    // Genre
+                    List<Genre> genres = aGenreService.readAllGenres();
+                    for(Genre genre: genres) {
+                        System.out.println(genre.toString());
+                    }
+                    System.out.println("Enter the id of the genre:");
+                    Integer genreChoice = getIntInput();
+                    while (choice < 1 || choice > genres.size()) {
+                        System.out.println("Not a valid choice.");
+                        genreChoice = getIntInput();
+                    }
+                    Genre genre = genres.get(genreChoice);
+
+                    Book newBook = new Book(title, pub.getPublisherID());
+
+                    aBookService.addBook(newBook);
+                    //aBookService.addBookReferences(newBook, newAuthor, pub, genre);
+
+                    System.out.println("Book added");
+                    
+                    break;
+                case 3:
+                    System.out.println("Enter the Borrowers Card Number:");
+                    Integer deleteId = getIntInput();
+                    Borrower borToDelete = aBorrowerService.readABorrower(deleteId);
+                    aBorrowerService.deleteABorrower(borToDelete);
+                    break;
+                case 4:
+                    System.out.println("Enter the Borrowers Card Number:");
+                    Integer updateId = getIntInput();
+                    Borrower borToUpdate = aBorrowerService.readABorrower(updateId);
+                    System.out.println("Enter the borrowers new name or 'N/A' for no change:");
+                    String newName = getStringInput();
+                    if ("n/a".equalsIgnoreCase(newName)) {
+                        newName = borToUpdate.getName();
+                    }
+                    System.out.println("Enter the borrowers new address or 'N/A' for no change:");
+                    String newAddress = getStringInput();
+                    if ("n/a".equalsIgnoreCase(newAddress)) {
+                        newAddress = borToUpdate.getAddress();
+                    }
+                    System.out.println("Enter the borrowers new phone number or 'N/A' for no change:");
+                    String newNumber = getStringInput();
+                    if ("n/a".equalsIgnoreCase(newNumber)) {
+                        newNumber = borToUpdate.getAddress();
+                    }
+                    borToUpdate.setAddress(newAddress);
+                    borToUpdate.setName(newName);
+                    borToUpdate.setPhone(newNumber);
+                    aBorrowerService.updateABorrower(borToUpdate);
+                    break;
+                case 5:
+                    break;
+            }
+        }
+        return;
+
+    }
 
 }

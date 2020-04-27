@@ -81,4 +81,9 @@ public class BookCopies implements Serializable{
             return false;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "BookCopies [bookId=" + bookId + ", branchId=" + branchId + ", noOfCopies=" + noOfCopies + "]";
+    }
 }

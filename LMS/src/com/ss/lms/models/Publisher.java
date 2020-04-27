@@ -11,6 +11,7 @@ public class Publisher implements Serializable{
     private int publisherId;
     private String publisherName;
     private String address;
+    private String phone;
     private List<Book> books;
 
     public Publisher(int publisherId, String publisherName, String address, List<Book> books) {
@@ -20,7 +21,23 @@ public class Publisher implements Serializable{
         this.books = books;
     }
 
-    @Override
+    public Publisher() {
+	}
+
+	public Publisher(Integer publisherId, String publisherName, String address, String phone) {
+        this.publisherId = publisherId;
+        this.publisherName = publisherName;
+        this.address = address;
+        this.phone = phone;
+	}
+
+	public Publisher(String publisherName, String address, String phone) {
+        this.publisherName = publisherName;
+        this.address = address;
+        this.phone = phone;
+	}
+
+	@Override
     public String toString() {
         return publisherId + ", " + publisherName + ", " + address;
     }
@@ -95,5 +112,13 @@ public class Publisher implements Serializable{
         } else if (!publisherName.equals(other.publisherName))
             return false;
         return true;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

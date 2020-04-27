@@ -13,8 +13,8 @@ public class BookDAO extends BaseDAO<Book> {
         super(conn);
     }
 
-    public void addBook(Book book) throws ClassNotFoundException, SQLException {
-        save("INSERT INTO tbl_book (authorName) VALUES (?)", new Object[] { book.getTitle() });
+    public Integer addBook(Book book) throws ClassNotFoundException, SQLException {
+        return saveWithPK("INSERT INTO tbl_book (title, pubId) VALUES (?, ?)", new Object[] { book.getTitle(), book.getPublisherId() });
     }
 
     public void updateBook(Book book) throws ClassNotFoundException, SQLException {
@@ -23,7 +23,11 @@ public class BookDAO extends BaseDAO<Book> {
     }
 
     public void deleteBook(Book book) throws ClassNotFoundException, SQLException {
-        save("DELETE FROM tbl_book WHERE authorId = ?", new Object[] { book.getBookId() });
+        save("DELETE FROM tbl_book WHERE bookId = ?", new Object[] { book.getBookId() });
+    }
+
+    public void deleteBooksByPublisher(Integer pubId) throws ClassNotFoundException, SQLException {
+        save("DELETE FROM tbl_book WHERE pubId = ?", new Object[] { pubId });
     }
 
     public List<Book> readAllBooks() throws ClassNotFoundException, SQLException {
@@ -34,9 +38,8 @@ public class BookDAO extends BaseDAO<Book> {
         return read("SELECT * FROM tbl_book WHERE title LIKE ?;", new Object[] {true, search });
     }
 
-    public Book readABookById(Integer bookId) throws SQLException {
-        List<Book> books = read("SELECT * FROM tbl_book WHERE bookId = ?;", new Object[] { bookId });
-        return books.get(0);
+    public List<Book> readABookById(Integer bookId) throws SQLException {
+        return read("SELECT * FROM tbl_book WHERE bookId = ?;", new Object[] { bookId });
     }
 
     @Override

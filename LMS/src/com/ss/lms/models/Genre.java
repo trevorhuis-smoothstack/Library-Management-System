@@ -15,7 +15,14 @@ public class Genre implements Serializable{
         this.genreName = genreName;
     }
 
-    public Integer getGenreID() {
+    public Genre() {
+	}
+
+	public Genre(String genreName) {
+        this.genreName = genreName;
+	}
+
+	public Integer getGenreID() {
         return genreID;
     }
 
@@ -60,6 +67,11 @@ public class Genre implements Serializable{
         } else if (!genreName.equals(other.genreName))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Genre [genreID=" + genreID + ", genreName=" + genreName + "]";
     }
 
     

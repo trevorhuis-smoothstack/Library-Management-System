@@ -21,7 +21,12 @@ public class LibraryBranch implements Serializable{
         
     }
 
-    public static long getSerialversionuid() {
+    public LibraryBranch(String branchName, String branchAddress) {
+        this.branchName = branchName;
+        this.branchAddress = branchAddress;
+	}
+
+	public static long getSerialversionuid() {
         return serialVersionUID;
     }
 
@@ -84,5 +89,11 @@ public class LibraryBranch implements Serializable{
         } else if (!branchName.equals(other.branchName))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "LibraryBranch [branchAddress=" + branchAddress + ", branchId=" + branchId + ", branchName=" + branchName
+                + "]";
     }
 }

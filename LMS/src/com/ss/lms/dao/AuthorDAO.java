@@ -13,8 +13,8 @@ public class AuthorDAO extends BaseDAO<Author>{
         super(conn);
     }
 
-    public void addAuthor(Author author) throws ClassNotFoundException, SQLException{
-		saveWithPK("INSERT INTO tbl_author (authorName) VALUES (?)", new Object[] {author.getAuthorName()});
+    public Integer addAuthor(Author author) throws ClassNotFoundException, SQLException{
+		return saveWithPK("INSERT INTO tbl_author (authorName) VALUES (?)", new Object[] {author.getAuthorName()});
 	}
 
 	public void updateAuthor(Author author)  throws ClassNotFoundException, SQLException{
@@ -27,6 +27,10 @@ public class AuthorDAO extends BaseDAO<Author>{
 	
 	public List<Author> readAllAuthors() throws ClassNotFoundException, SQLException{
 		return read("SELECT * FROM tbl_author", null);
+	}
+
+	public List<Author> readAnAuthor(Integer authorId) throws ClassNotFoundException, SQLException{
+		return read("SELECT * FROM tbl_author WHERE authorId = ?", new Object[]{ authorId });
 	}
 
 	@Override

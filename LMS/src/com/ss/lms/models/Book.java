@@ -40,7 +40,7 @@ public class Book implements Serializable{
         this.publisherId = publisherId;
     }
 
-    public Book(int bookId, String title, int authorId, int publisherId) {
+    public Book(int bookId, String title, int publisherId) {
         this.bookId = bookId;
         this.title = title;
         this.publisherId = publisherId;
@@ -49,7 +49,12 @@ public class Book implements Serializable{
     public Book() {
 	}
 
-    @Override
+    public Book(String title, int publisherId) {
+        this.title = title;
+        this.publisherId = publisherId;
+	}
+
+	@Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

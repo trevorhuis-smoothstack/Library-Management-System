@@ -22,6 +22,12 @@ public class Borrower implements Serializable{
     public Borrower() {
 	}
 
+	public Borrower(String name, String address, String phone) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+	}
+
 	public Integer getCardNo() {
         return cardNo;
     }
@@ -95,5 +101,10 @@ public class Borrower implements Serializable{
         } else if (!phone.equals(other.phone))
             return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Borrower [address=" + address + ", cardNo=" + cardNo + ", name=" + name + ", phone=" + phone + "]";
     }
 }
